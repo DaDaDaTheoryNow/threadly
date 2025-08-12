@@ -1,0 +1,29 @@
+[package]
+name = "lib-game-logic"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+lib-core = { path = "../../libs/lib-core" }
+lib-messages = { path = "../../libs/lib-messages" }
+lib-sessions = { path = "../../libs/lib-sessions" }
+lib-players = { path = "../../libs/lib-players" }
+lib-game-events = { path = "../../libs/lib-game-events" }
+
+axum = { version = "0.8.4", features = ["ws"] }
+derive_more = { version = "2.0.1", features = ["from"] }
+uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_with = { version = "3", features = ["time_0_3"] }
+chrono = { version = "0.4", features = ["serde"] }
+diesel = { version = "2.2.10", features = [
+    "postgres",
+    "chrono",
+    "r2d2",
+    "uuid",
+] }
+thiserror = "2.0.14"
+
+[lints]
+workspace = true

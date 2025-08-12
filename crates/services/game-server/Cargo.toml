@@ -1,0 +1,35 @@
+[package]
+name = "game-server"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+lib-websockets = { path = "../../libs/lib-websockets" }
+lib-core = { path = "../../libs/lib-core" }
+lib-rest = { path = "../../libs/lib-rest" }
+lib-game-events = { path = "../../libs/lib-game-events" }
+lib-game-logic = { path = "../../libs/lib-game-logic" }
+lib-auth = { path = "../../libs/lib-auth" }
+
+strum_macros = "0.27.2"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tokio = { version = "1", features = ["full"] }
+axum = { version = "0.8.4", features = ["ws"] }
+tracing = "0.1"
+jsonwebtoken = "9.3.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_with = { version = "3", features = ["time_0_3"] }
+derive_more = { version = "2.0.1", features = ["from"] }
+thiserror = "2.0.14"
+diesel = { version = "2.2.10", features = [
+    "postgres",
+    "chrono",
+    "r2d2",
+    "uuid",
+] }
+async-trait = "0.1"
+uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }
+
+[lints]
+workspace = true

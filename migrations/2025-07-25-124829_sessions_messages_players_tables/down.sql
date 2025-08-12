@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS messages;
+
+DROP TABLE IF EXISTS players;
+
+DROP TABLE IF EXISTS sessions;
+
+DROP TABLE IF EXISTS users;
+
+DROP TYPE IF EXISTS session_status;

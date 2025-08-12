@@ -1,0 +1,30 @@
+[package]
+name = "lib-websockets"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+lib-core = { path = "../../libs/lib-core" }
+lib-players = { path = "../../libs/lib-players" }
+lib-sessions = { path = "../../libs/lib-sessions" }
+lib-game-logic = { path = "../../libs/lib-game-logic" }
+lib-game-events = { path = "../../libs/lib-game-events" }
+
+uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+axum = { version = "0.8.4", features = ["ws"] }
+futures-util = { version = "0.3", features = ["std"] }
+chrono = { version = "0.4", features = ["serde"] }
+diesel = { version = "2.2.10", features = [
+    "postgres",
+    "chrono",
+    "r2d2",
+    "uuid",
+] }
+
+dashmap = "6.1.0"
+
+[lints]
+workspace = true

@@ -1,0 +1,16 @@
+# Rust
+/target/
+
+# Cargo.lock - if you're building a library, you might want to ignore this
+# if you want to allow downstream users to resolve their own dependencies.
+# For applications, it's generally recommended to keep Cargo.lock.
+# Cargo.lock
+
+# IDE-specific files (examples)
+.idea/
+.vscode/
+*.iml
+
+# OS-specific files
+.DS_Store
+Thumbs.db

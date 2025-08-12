@@ -1,0 +1,25 @@
+[package]
+name = "lib-auth"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+lib-core = { path = "../../libs/lib-core" }
+uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }
+diesel = { version = "2.2.10", features = [
+    "postgres",
+    "chrono",
+    "r2d2",
+    "uuid",
+] }
+chrono = { version = "0.4", features = ["serde"] }
+jsonwebtoken = "9.3.1"
+bcrypt = "0.17.0"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "2.0.14"
+serde_json = "1"
+axum = { version = "0.8.4", features = ["ws"] }
+tracing = "0.1"
+
+[lints]
+workspace = true
