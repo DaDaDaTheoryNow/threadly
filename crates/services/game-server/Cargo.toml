@@ -10,7 +10,16 @@ lib-rest = { path = "../../libs/lib-rest" }
 lib-game-events = { path = "../../libs/lib-game-events" }
 lib-game-logic = { path = "../../libs/lib-game-logic" }
 lib-auth = { path = "../../libs/lib-auth" }
+lib-ai = { path = "../../libs/lib-ai" }
 
+# test
+lib-sessions = { path = "../../libs/lib-sessions" }
+lib-players = { path = "../../libs/lib-players" }
+lib-messages = { path = "../../libs/lib-messages" }
+lib-stories = { path = "../../libs/lib-stories" }
+
+uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }
+chrono = "0.4"
 strum_macros = "0.27.2"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 tokio = { version = "1", features = ["full"] }
@@ -29,7 +38,8 @@ diesel = { version = "2.2.10", features = [
     "uuid",
 ] }
 async-trait = "0.1"
-uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }
+tower-http = { version = "0.6.6", features = ["cors"] }
+form_urlencoded = "1.2.2"
 
 [lints]
 workspace = true

@@ -6,7 +6,6 @@ use uuid::Uuid;
 #[derive(Debug, Queryable, AsChangeset, Clone)]
 #[diesel(table_name = players)]
 pub struct Player {
-	pub id: Uuid,
 	pub session_id: Uuid,
 	pub user_id: Uuid,
 	pub joined_at: NaiveDateTime,
@@ -21,4 +20,10 @@ pub struct NewPlayer {
 	pub user_id: Uuid,
 	pub is_ready: bool,
 	pub is_host: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct PlayerId {
+	pub session_id: Uuid,
+	pub user_id: Uuid,
 }

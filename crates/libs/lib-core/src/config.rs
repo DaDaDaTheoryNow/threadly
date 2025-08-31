@@ -19,6 +19,12 @@ pub struct CoreConfig {
 
 	// -- JWT
 	pub JWT_SECRET: String,
+
+	// -- AI
+	pub GCP_APPLICATION_CREDENTIALS: String,
+	pub GCP_PROJECT_ID: String,
+	pub GCP_LOCATION: String,
+	pub GCP_MODEL_NAME: String,
 }
 
 impl CoreConfig {
@@ -26,6 +32,10 @@ impl CoreConfig {
 		let db_url_base = get_env("DATABASE_URL_BASE")?;
 		let db_url = get_env("DATABASE_URL")?;
 		let jwt_secret = get_env("JWT_SECRET")?;
+		let gcp_application_credentials = get_env("GCP_APPLICATION_CREDENTIALS")?;
+		let gcp_project_id = get_env("GCP_PROJECT_ID")?;
+		let gcp_location = get_env("GCP_LOCATION")?;
+		let gcp_model_name = get_env("GCP_MODEL_NAME")?;
 
 		Ok(CoreConfig {
 			// -- Db
@@ -33,6 +43,11 @@ impl CoreConfig {
 			DB_URL: db_url.clone(),
 			// -- JWT
 			JWT_SECRET: jwt_secret.clone(),
+			// -- AI
+			GCP_APPLICATION_CREDENTIALS: gcp_application_credentials.clone(),
+			GCP_PROJECT_ID: gcp_project_id.clone(),
+			GCP_LOCATION: gcp_location.clone(),
+			GCP_MODEL_NAME: gcp_model_name.clone(),
 		})
 	}
 }

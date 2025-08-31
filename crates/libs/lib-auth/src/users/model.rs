@@ -7,7 +7,6 @@ use uuid::Uuid;
 #[diesel(table_name = users)]
 pub struct User {
 	pub id: Uuid,
-	pub email: String,
 	pub username: String,
 	pub password_hash: String,
 	pub created_at: NaiveDateTime,
@@ -16,7 +15,6 @@ pub struct User {
 #[derive(Debug, Insertable, Clone)]
 #[diesel(table_name = users)]
 pub struct NewUser<'a> {
-	pub email: &'a str,
 	pub username: &'a str,
 	pub password_hash: &'a str,
 }

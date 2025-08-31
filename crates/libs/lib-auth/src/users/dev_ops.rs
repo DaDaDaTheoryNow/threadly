@@ -49,12 +49,12 @@ impl BasicDbOps for User {
 }
 
 impl User {
-	pub fn find_by_email(
+	pub fn find_by_username(
 		db: &mut PgConnection,
-		email: &str,
+		username: &str,
 	) -> Result<Option<Self>, diesel::result::Error> {
 		users::table
-			.filter(users::email.eq(email))
+			.filter(users::username.eq(username))
 			.first::<Self>(db)
 			.optional()
 	}

@@ -58,7 +58,7 @@ pub type CtxExtResult = core::result::Result<Ctx, CtxExtError>;
 pub enum CtxExtError {
 	#[error("Authentication Bearer token not found in header")]
 	TokenNotInBarier,
-	#[error("Context not found in request extensions")]
+	#[error("Token not in request extensions or invalid")]
 	CtxNotInRequestExt,
 	#[error("Failed to create context: {0}")]
 	CtxCreateFail(String),
@@ -74,12 +74,14 @@ impl CtxExtError {
 			CtxExtError::TokenNotInBarier => (
 				StatusCode::UNAUTHORIZED,
 				ClientError::AUTHENTICATION_FAILED(
-					"Token not found in header".to_string(),
+					"Token not found in request".to_string(),
 				),
 			),
-			CtxExtError::CtxNotInRequestExt => (
-				StatusCode::INTERNAL_SERVER_ERROR,
-				ClientError::INTERNAL_SERVER_ERROR,
+			CtxExtError::CtxNotInRequestExt | CtxExtError::FailValidate => (
+				StatusCode::UNAUTHORIZED,
+				ClientError::AUTHENTICATION_FAILED(
+					"Token not found in request or invalid".to_string(),
+				),
 			),
 			CtxExtError::CtxCreateFail(_) => (
 				StatusCode::INTERNAL_SERVER_ERROR,
@@ -88,12 +90,6 @@ impl CtxExtError {
 			CtxExtError::DbError(_) => (
 				StatusCode::INTERNAL_SERVER_ERROR,
 				ClientError::INTERNAL_SERVER_ERROR,
-			),
-			CtxExtError::FailValidate => (
-				StatusCode::UNAUTHORIZED,
-				ClientError::AUTHENTICATION_FAILED(
-					"Token validation failed".to_string(),
-				),
 			),
 		}
 	}

@@ -11,7 +11,7 @@ pub struct Session {
 	pub id: Uuid,
 	pub theme: String,
 	pub status: SessionStatus,
-	pub current_player_id_turn: Option<Uuid>,
+	pub current_user_id_turn: Option<Uuid>,
 	pub max_rounds: i32,
 	pub current_round: i32,
 	pub created_at: NaiveDateTime,
@@ -22,4 +22,23 @@ pub struct Session {
 pub struct NewSession<'a> {
 	pub theme: &'a str,
 	pub max_rounds: i32,
+}
+
+#[derive(Serialize)]
+pub struct UserInSession {
+	pub user_id: Uuid,
+	pub is_ready: bool,
+	pub is_host: bool,
+}
+
+#[derive(Serialize)]
+pub struct SessionWithUsersInSession {
+	pub id: Uuid,
+	pub theme: String,
+	pub status: SessionStatus,
+	pub current_user_id_turn: Option<Uuid>,
+	pub max_rounds: i32,
+	pub current_round: i32,
+	pub created_at: chrono::NaiveDateTime,
+	pub users: Vec<UserInSession>,
 }

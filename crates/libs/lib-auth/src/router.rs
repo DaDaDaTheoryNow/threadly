@@ -29,16 +29,24 @@ async fn register_handler(
 	Extension(auth_service): Extension<AuthService>,
 	Json(payload): Json<RegisterRequest>,
 ) -> Result<impl IntoResponse, AuthError> {
-	let token = auth_service.register(payload)?;
+	let (token, user_id) = auth_service.register(payload)?;
 
-	Ok((StatusCode::OK, Json(json!({ "token": token }))).into_response())
+	Ok((
+		StatusCode::OK,
+		Json(json!({ "token": token, "user_id": user_id })),
+	)
+		.into_response())
 }
 
 async fn login_handler(
 	Extension(auth_service): Extension<AuthService>,
 	Json(payload): Json<LoginRequest>,
 ) -> Result<impl IntoResponse, AuthError> {
-	let token = auth_service.login(payload)?;
+	let (token, user_id) = auth_service.login(payload)?;
 
-	Ok((StatusCode::OK, Json(json!({ "token": token }))).into_response())
+	Ok((
+		StatusCode::OK,
+		Json(json!({ "token": token, "user_id": user_id })),
+	)
+		.into_response())
 }

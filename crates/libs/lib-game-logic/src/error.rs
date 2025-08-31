@@ -7,6 +7,8 @@ use serde::Serialize;
 use serde_with::{DisplayFromStr, serde_as};
 use thiserror::Error;
 
+pub type Result<T> = core::result::Result<T, Error>;
+
 #[serde_as]
 #[derive(Debug, Serialize, From, Error, Clone)]
 pub enum Error {
@@ -50,6 +52,9 @@ pub enum Error {
 
 	#[error("Unknown error occurred")]
 	Unknown,
+
+	#[error("AI generation error: {0}")]
+	AiGenerationError(String),
 }
 
 impl Error {
@@ -106,5 +111,3 @@ impl Error {
 		}
 	}
 }
-
-pub type Result<T> = core::result::Result<T, Error>;

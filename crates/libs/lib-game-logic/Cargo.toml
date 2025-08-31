@@ -9,7 +9,10 @@ lib-messages = { path = "../../libs/lib-messages" }
 lib-sessions = { path = "../../libs/lib-sessions" }
 lib-players = { path = "../../libs/lib-players" }
 lib-game-events = { path = "../../libs/lib-game-events" }
+lib-ai = { path = "../../libs/lib-ai" }
+lib-stories = { path = "../../libs/lib-stories" }
 
+tokio = { version = "1", features = ["full"] }
 axum = { version = "0.8.4", features = ["ws"] }
 derive_more = { version = "2.0.1", features = ["from"] }
 uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }

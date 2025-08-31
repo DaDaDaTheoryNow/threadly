@@ -8,6 +8,8 @@ pub enum SessionStatus {
 	Waiting,
 	#[db_rename = "started"]
 	Started,
+	#[db_rename = "waiting_for_story_generation"]
+	WaitingForStoryGeneration,
 	#[db_rename = "finished"]
 	Finished,
 }

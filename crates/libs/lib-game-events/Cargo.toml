@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+lib-core = { path = "../../libs/lib-core" }
+lib-sessions = { path = "../../libs/lib-sessions" }
+
 tokio = { version = "1", features = ["full"] }
 dashmap = "6.1.0"
 uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }

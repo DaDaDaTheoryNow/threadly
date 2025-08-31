@@ -1,0 +1,21 @@
+[package]
+name = "lib-stories"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+lib-core = { path = "../../libs/lib-core" }
+uuid = { version = "1", features = ["v4", "fast-rng", "serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+chrono = { version = "0.4", features = ["serde"] }
+diesel = { version = "2.2.10", features = [
+    "postgres",
+    "chrono",
+    "r2d2",
+    "uuid",
+] }
+
+[lints]
+workspace = true

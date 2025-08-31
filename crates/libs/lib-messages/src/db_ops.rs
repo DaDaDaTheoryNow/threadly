@@ -50,3 +50,24 @@ impl BasicDbOps for Message {
 		diesel::delete(messages::table.find(id)).execute(conn)
 	}
 }
+
+impl Message {
+	pub fn list_by_session(
+		conn: &mut PgConnection,
+		session_id: Uuid,
+	) -> QueryResult<Vec<Self>> {
+		messages::table
+			.filter(messages::session_id.eq(session_id))
+			.load(conn)
+	}
+
+	pub fn get_last_by_session(
+		conn: &mut PgConnection,
+		session_id: Uuid,
+	) -> QueryResult<Self> {
+		messages::table
+			.filter(messages::session_id.eq(session_id))
+			.order_by(messages::created_at.desc())
+			.first(conn)
+	}
+}

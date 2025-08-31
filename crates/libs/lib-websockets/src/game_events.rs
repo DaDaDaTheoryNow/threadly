@@ -1,18 +1,20 @@
 use axum::extract::ws::{Message, WebSocket};
 use futures_util::{SinkExt, StreamExt, stream::SplitSink};
-use lib_game_events::{event::GameEvent, manager::GameEventsManager};
+use lib_game_events::{event::game::GameEvent, manager::GameEventsManager};
 use std::sync::Arc;
 use uuid::Uuid;
 
 use tokio::select;
 
-pub async fn handle_socket(
+pub async fn handle_game_events_socket(
 	socket: WebSocket,
 	session_id: Uuid,
 	game_events_manager: Arc<GameEventsManager>,
-	player_id: Uuid,
+	user_id: Uuid,
 ) {
-	let mut receiver = game_events_manager.subscribe(session_id, player_id);
+	let mut receiver = game_events_manager
+		.subscribe_user_to_observe_game_events(session_id, user_id);
+
 	let (mut ws_sender, mut ws_receiver) = socket.split();
 
 	let mut write_task = tokio::spawn(async move {

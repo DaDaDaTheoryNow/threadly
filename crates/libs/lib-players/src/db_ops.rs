@@ -5,32 +5,34 @@ use lib_core::model::base::BasicDbOps;
 use lib_core::model::schema::players;
 use uuid::Uuid;
 
-use crate::model::NewPlayer;
-use crate::model::Player;
+use crate::model::{NewPlayer, Player, PlayerId};
 
 impl HasTable for Player {
 	type Table = players::table;
+
 	fn table() -> Self::Table {
 		players::table
 	}
 }
 
 impl BasicDbOps for Player {
-	type Id = Uuid;
+	type Id = PlayerId;
 	type Insert<'a> = NewPlayer;
 
 	fn create<'a>(conn: &mut PgConnection, item: NewPlayer) -> QueryResult<Self> {
 		diesel::insert_into(Self::table())
-			.values(item)
+			.values(&item)
 			.get_result(conn)
 	}
 
 	fn get(conn: &mut PgConnection, id: Self::Id) -> QueryResult<Self> {
-		players::table.find(id).get_result(conn)
+		Self::table()
+			.find((id.session_id, id.user_id))
+			.get_result(conn)
 	}
 
 	fn list(conn: &mut PgConnection) -> QueryResult<Vec<Self>> {
-		players::table.load(conn)
+		Self::table().load(conn)
 	}
 
 	fn update(
@@ -38,13 +40,13 @@ impl BasicDbOps for Player {
 		id: Self::Id,
 		changes: &Self,
 	) -> QueryResult<Self> {
-		diesel::update(players::table.find(id))
+		diesel::update(Self::table().find((id.session_id, id.user_id)))
 			.set(changes)
 			.get_result(conn)
 	}
 
 	fn delete(conn: &mut PgConnection, id: Self::Id) -> QueryResult<usize> {
-		diesel::delete(players::table.find(id)).execute(conn)
+		diesel::delete(Self::table().find((id.session_id, id.user_id))).execute(conn)
 	}
 }
 
@@ -53,7 +55,7 @@ impl Player {
 		conn: &mut PgConnection,
 		sid: Uuid,
 	) -> QueryResult<Vec<Self>> {
-		players::table
+		Self::table()
 			.filter(players::session_id.eq(sid))
 			.order(players::joined_at.asc())
 			.load::<Self>(conn)
@@ -63,7 +65,7 @@ impl Player {
 		conn: &mut PgConnection,
 		uid: Uuid,
 	) -> QueryResult<Vec<Self>> {
-		players::table
+		Self::table()
 			.filter(players::user_id.eq(uid))
 			.order(players::joined_at.asc())
 			.load::<Self>(conn)

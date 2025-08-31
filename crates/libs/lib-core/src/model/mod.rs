@@ -3,7 +3,7 @@ pub mod error;
 pub mod schema;
 pub mod schema_enums;
 
-mod store;
+pub mod store;
 
 use self::error::Result;
 use crate::model::store::{

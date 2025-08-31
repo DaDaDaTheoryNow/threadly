@@ -4,13 +4,13 @@ unsafe_code = "forbid"
 
 [workspace]
 resolver = "2"
-members = [ "crates/libs/lib-auth",
+members = [ "crates/libs/lib-ai", "crates/libs/lib-auth",
     "crates/libs/lib-core", "crates/libs/lib-game-events",
     "crates/libs/lib-game-logic",
     "crates/libs/lib-messages",
     "crates/libs/lib-players",
     "crates/libs/lib-rest",
-    "crates/libs/lib-sessions",
+    "crates/libs/lib-sessions", "crates/libs/lib-stories",
     "crates/libs/lib-utils",
     "crates/libs/lib-websockets",
     "crates/services/game-server",

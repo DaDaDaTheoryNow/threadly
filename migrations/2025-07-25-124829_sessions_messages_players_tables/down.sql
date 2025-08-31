@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS messages;
 
 DROP TABLE IF EXISTS players;
 
+DROP TABLE IF EXISTS stories;
+
 DROP TABLE IF EXISTS sessions;
 
 DROP TABLE IF EXISTS users;

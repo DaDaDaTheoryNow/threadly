@@ -16,11 +16,11 @@ pub struct AuthService {
 }
 
 impl AuthService {
-	pub fn register(&self, input: RegisterRequest) -> Result<String> {
+	pub fn register(&self, input: RegisterRequest) -> Result<(String, String)> {
 		let mut db = self.mm.db();
 
-		// Check if email or username already exists
-		let existing = User::find_by_email(&mut db, &input.email)
+		// Check if username already exists
+		let existing = User::find_by_username(&mut db, &input.username)
 			.map_err(|e| AuthError::DbError(e.to_string()))?;
 
 		if existing.is_some() {
@@ -32,7 +32,6 @@ impl AuthService {
 			.map_err(|e| AuthError::HashError(e.to_string()))?;
 
 		let new_user = NewUser {
-			email: &input.email,
 			username: &input.username,
 			password_hash: &password_hash,
 		};
@@ -44,14 +43,14 @@ impl AuthService {
 		let token = create_jwt(user.id, self.jwt_secret.as_bytes())
 			.map_err(|e| AuthError::JwtError(e.to_string()))?;
 
-		Ok(token)
+		Ok((token, user.id.to_string()))
 	}
 
-	pub fn login(&self, input: LoginRequest) -> Result<String> {
-		// Find user by e	mail
+	pub fn login(&self, input: LoginRequest) -> Result<(String, String)> {
+		// Find user by username
 		let mut db = self.mm.db();
 
-		let user = User::find_by_email(&mut db, &input.email)
+		let user = User::find_by_username(&mut db, &input.username)
 			.map_err(|e| AuthError::DbError(e.to_string()))?
 			.ok_or(AuthError::UserNotFound)?;
 
@@ -67,6 +66,6 @@ impl AuthService {
 		let token = create_jwt(user.id, self.jwt_secret.as_bytes())
 			.map_err(|e| AuthError::JwtError(e.to_string()))?;
 
-		Ok(token)
+		Ok((token, user.id.to_string()))
 	}
 }
