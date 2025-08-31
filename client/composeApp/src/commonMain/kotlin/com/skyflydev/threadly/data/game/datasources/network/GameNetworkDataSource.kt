@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 interface GameNetworkDataSource {
     fun observeGameEvents(sessionId: String): Flow<GameEvent>
     suspend fun submitMessage(sessionId: String, content: String): AppResult<Unit, AppError>
+    suspend fun startGame(sessionId: String): AppResult<Unit, AppError>
 }
 
 class GameNetworkDataSourceImpl(
@@ -90,6 +91,21 @@ class GameNetworkDataSourceImpl(
                     setBody(mapOf(
                         "session_id" to sessionId,
                         "content" to content
+                    ))
+                }
+            }
+        }
+    }
+
+    override suspend fun startGame(sessionId: String): AppResult<Unit, AppError> {
+        return authDataStore.getAuthData().map { authData ->
+            return safeCall<Unit> {
+                httpClient.post(
+                    urlString = "/api/sessions/start"
+                ) {
+                    bearerAuth(authData.token)
+                    setBody(mapOf(
+                        "session_id" to sessionId,
                     ))
                 }
             }

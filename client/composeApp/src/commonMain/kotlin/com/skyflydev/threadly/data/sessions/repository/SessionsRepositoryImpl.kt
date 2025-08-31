@@ -1,12 +1,12 @@
 package com.skyflydev.threadly.data.sessions.repository
 
 import com.skyflydev.threadly.core.common.error.AppError
+import com.skyflydev.threadly.core.common.error.AppError
 import com.skyflydev.threadly.core.common.result.AppResult
 import com.skyflydev.threadly.core.common.result.map
+import com.skyflydev.threadly.core.model.Player
 import com.skyflydev.threadly.core.model.Session
 import com.skyflydev.threadly.data.sessions.datasources.network.SessionsNetworkDataSource
-import com.skyflydev.threadly.data.sessions.dto.response.SessionPlayerDto
-import com.skyflydev.threadly.data.sessions.dto.response.SessionCreatedDto
 import com.skyflydev.threadly.data.sessions.dto.response.SessionEvent
 import com.skyflydev.threadly.data.sessions.mappers.toEntity
 import kotlinx.coroutines.flow.Flow
@@ -28,19 +28,15 @@ class SessionsRepositoryImpl(
         return network.fetchSessionDetails(sessionId).map { it.toEntity() }
     }
 
-    override suspend fun startGame(sessionId: String): AppResult<Unit, AppError> {
-        return network.startGame(sessionId)
-    }
-
     override suspend fun createSession(
         theme: String,
         maxRounds: Int
-    ): AppResult<SessionCreatedDto, AppError> {
-        return network.createSession(theme, maxRounds)
+    ): AppResult<String, AppError> {
+        return network.createSession(theme, maxRounds).map { it.sessionId }
     }
 
-    override suspend fun joinSession(sessionId: String): AppResult<SessionPlayerDto, AppError> {
-        return network.joinSession(sessionId)
+    override suspend fun joinSession(sessionId: String): AppResult<Player, AppError> {
+        return network.joinSession(sessionId).map { it.toEntity() }
     }
 
     override suspend fun leaveSession(
@@ -52,7 +48,7 @@ class SessionsRepositoryImpl(
     override suspend fun setReady(
         value: Boolean,
         sessionId: String
-    ): AppResult<SessionPlayerDto, AppError> {
-        return network.setReady(value, sessionId)
+    ): AppResult<Player, AppError> {
+        return network.setReady(value, sessionId).map { it.toEntity() }
     }
 }

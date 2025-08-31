@@ -1,4 +1,4 @@
-package com.skyflydev.threadly.feature.session
+package com.skyflydev.threadly.feature.game
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -7,13 +7,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.skyflydev.threadly.feature.session.view_model.SessionIntent
-import com.skyflydev.threadly.feature.session.view_model.SessionViewModel
+import com.skyflydev.threadly.feature.game.view_model.GameIntent
+import com.skyflydev.threadly.feature.game.view_model.GameViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun GameScreen(
-    viewModel: SessionViewModel,
+    viewModel: GameViewModel,
     onBack: () -> Unit = {}
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
@@ -64,7 +64,7 @@ fun GameScreen(
                 ElevatedButton(onClick = {
                     val trimmed = input.trim()
                     if (trimmed.isNotEmpty()) {
-                        viewModel.sendIntent(SessionIntent.SubmitMessage(trimmed))
+                        viewModel.sendIntent(GameIntent.SubmitMessage(trimmed))
                         input = "" // очистить поле при успехе — сервер пришлёт NewTurn
                     }
                 }) {

@@ -1,62 +1,62 @@
 package com.skyflydev.threadly.feature.session.navigation
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.skyflydev.threadly.feature.session.GameScreen
-import com.skyflydev.threadly.feature.session.ReadySessionScreen
-import com.skyflydev.threadly.feature.session.create_session.CreateSessionScreen
-import com.skyflydev.threadly.feature.session.view_model.SessionViewModel
+import com.skyflydev.threadly.feature.game.navigation.GameRoute
+import com.skyflydev.threadly.feature.session.create.CreateSessionScreen
+import com.skyflydev.threadly.feature.session.lobby.ReadySessionScreen
+import com.skyflydev.threadly.feature.session.lobby.view_model.SessionLobbyViewModel
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Serializable
-data class SessionRoute(
+data class SessionLobbyRoute(
     val sessionId: String,
-    val userId: String
+    val userId: String,
+    val isHost: Boolean
 )
 
 @Serializable
 data object CreateSessionRoute
 
 fun NavGraphBuilder.createSessionScreen(
-    onNavigateToSessionScreen: (sessionId: String, hostUserId: String) -> Unit,
-    ) {
+    navController: NavController
+) {
     composable<CreateSessionRoute> {
         CreateSessionScreen(
-            onNavigateToSessionScreen = onNavigateToSessionScreen
+            onNavigateToSessionScreen = { sessionId, hostUserId ->
+                navController.navigate(SessionLobbyRoute(
+                    sessionId = sessionId,
+                    userId = hostUserId,
+                    isHost = true
+                ))
+            }
         )
     }
 }
 
-fun NavGraphBuilder.sessionScreen(
-    onNavigateToHomeScreen: () -> Unit,
+fun NavGraphBuilder.sessionLobbyScreen(
+    navController: NavController
 ) {
-    composable<SessionRoute> {
-        val sessionId = it.toRoute<SessionRoute>().sessionId
-        val userId = it.toRoute<SessionRoute>().userId
+    composable<SessionLobbyRoute> {
+        val route = it.toRoute<SessionLobbyRoute>()
 
-        val viewModel = koinViewModel<SessionViewModel>(
-            parameters = { parametersOf(sessionId, userId) }
+        val viewModel = koinViewModel<SessionLobbyViewModel>(
+            parameters = { parametersOf(route.sessionId, route.userId) }
         )
 
-        var isReadyScreen: Boolean by remember { mutableStateOf(true) }
-
-        if (isReadyScreen)
         ReadySessionScreen(
-            onNavigateToHomeScreen = onNavigateToHomeScreen,
+            onNavigateToHomeScreen = { navController.popBackStack() },
             onNavigateToGameScreen = {
-                isReadyScreen = false
+                 navController.navigate(GameRoute(
+                    sessionId = route.sessionId,
+                    userId = route.userId,
+                    isHost = route.isHost
+                ))
             },
-            viewModel = viewModel,
-        )
-
-        if (!isReadyScreen) GameScreen(
             viewModel = viewModel,
         )
     }

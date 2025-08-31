@@ -1,4 +1,4 @@
-package com.skyflydev.threadly.feature.session
+package com.skyflydev.threadly.feature.session.lobby
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,9 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.skyflydev.threadly.feature.session.lobby.view_model.SessionLobbyViewModel
 import com.skyflydev.threadly.feature.session.view_model.SessionIntent
 import com.skyflydev.threadly.feature.session.view_model.SessionUiEffect
-import com.skyflydev.threadly.feature.session.view_model.SessionViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun ReadySessionScreen(
     onNavigateToHomeScreen: () -> Unit,
     onNavigateToGameScreen: () -> Unit,
-    viewModel: SessionViewModel,
+    viewModel: SessionLobbyViewModel,
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val snackbarHostState = remember { SnackbarHostState() }

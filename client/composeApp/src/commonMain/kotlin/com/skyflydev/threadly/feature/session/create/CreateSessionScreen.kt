@@ -1,4 +1,4 @@
-package com.skyflydev.threadly.feature.session.create_session
+package com.skyflydev.threadly.feature.session.create
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,7 +36,7 @@ fun CreateSessionScreen(
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest { event ->
             when (event) {
-                is NewSessionUiEffect.NavigateToSessionScreen -> onNavigateToSessionScreen(event.sessionId, event.hostUserId)
+                is NewSessionUiEffect.NavigateToSessionScreen -> onNavigateToSessionScreen(event.sessionId, event.userId)
             }
         }
     }

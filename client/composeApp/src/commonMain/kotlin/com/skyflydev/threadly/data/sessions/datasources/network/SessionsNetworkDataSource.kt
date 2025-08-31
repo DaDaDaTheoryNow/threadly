@@ -36,7 +36,6 @@ interface SessionsNetworkDataSource {
     fun observeSessionsEvents(): Flow<SessionEvent>
     suspend fun fetchSessionDetails(sessionId: String): AppResult<SessionDto, AppError>
 
-    suspend fun startGame(sessionId: String): AppResult<Unit, AppError>
     suspend fun createSession(theme: String, maxRounds: Int): AppResult<SessionCreatedDto, AppError>
     suspend fun joinSession(sessionId: String): AppResult<SessionPlayerDto, AppError>
     suspend fun leaveSession(sessionId: String): AppResult<Unit, AppError>
@@ -108,21 +107,6 @@ class SessionsNetworkDataSourceImpl(
                     urlString = "/api/sessions/$sessionId"
                 ) {
                     bearerAuth(authData.token)
-                }
-            }
-        }
-    }
-
-    override suspend fun startGame(sessionId: String): AppResult<Unit, AppError> {
-        return authDataStore.getAuthData().map { authData ->
-            return safeCall<Unit> {
-                httpClient.post(
-                    urlString = "/api/sessions/start"
-                ) {
-                    bearerAuth(authData.token)
-                    setBody(mapOf(
-                        "session_id" to sessionId,
-                    ))
                 }
             }
         }

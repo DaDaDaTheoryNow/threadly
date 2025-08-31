@@ -17,9 +17,10 @@ import com.skyflydev.threadly.data.sessions.repository.SessionsRepositoryImpl
 import com.skyflydev.threadly.data.token.AuthDataStore
 import com.skyflydev.threadly.data.token.LocalAuthDataStore
 import com.skyflydev.threadly.feature.auth.view_model.AuthViewModel
+import com.skyflydev.threadly.feature.game.view_model.GameViewModel
 import com.skyflydev.threadly.feature.home.view_model.HomeViewModel
-import com.skyflydev.threadly.feature.session.create_session.CreateSessionViewModel
-import com.skyflydev.threadly.feature.session.view_model.SessionViewModel
+import com.skyflydev.threadly.feature.session.create.NewSessionViewModel
+import com.skyflydev.threadly.feature.session.lobby.view_model.SessionLobbyViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
@@ -58,8 +59,11 @@ val sharedModule = module {
     // ViewModels
     viewModelOf(::HomeViewModel)
     viewModelOf(::AuthViewModel)
-    viewModelOf(::CreateSessionViewModel)
+    viewModel { NewSessionViewModel(get(), get()) }
     viewModel { (sessionId: String, userId: String) ->
-        SessionViewModel(sessionId, userId, get(), get())
+        SessionLobbyViewModel(sessionId, userId, get())
+    }
+    viewModel { (sessionId: String, userId: String, isHost: Boolean) ->
+        GameViewModel(sessionId, userId, isHost, get())
     }
 }
