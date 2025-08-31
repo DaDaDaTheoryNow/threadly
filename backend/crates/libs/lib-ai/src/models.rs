@@ -11,27 +11,6 @@ pub struct SystemInstruction {
 	pub parts: Vec<Part>,
 }
 
-// #[derive(Debug, Serialize)]
-// pub struct Content {
-// 	pub role: String,
-// 	pub parts: Vec<Part>,
-// }
-
-// #[derive(Debug, Serialize, Deserialize)]
-// pub struct Part {
-// 	pub text: String,
-// }
-
-// #[derive(Debug, Deserialize)]
-// pub struct StreamChunk {
-// 	pub candidates: Option<Vec<Candidate>>,
-// }
-
-// #[derive(Debug, Deserialize)]
-// pub struct Candidate {
-// 	pub content: ContentResponse,
-// }
-
 #[derive(Debug, Deserialize)]
 pub struct ContentResponse {
 	pub parts: Vec<Part>,
@@ -42,34 +21,9 @@ pub struct ChatResponse {
 	pub text: String,
 }
 
-// #[derive(Debug, serde::Deserialize)]
-// pub struct StreamChunk {
-// 	pub candidates: Option<Vec<Candidate>>,
-// 	#[serde(flatten)]
-// 	pub _extra: Option<serde_json::Value>, // остальные поля игнорируем
-// }
-
-// #[derive(Debug, serde::Deserialize, Serialize)]
-// pub struct Candidate {
-// 	pub content: Content,
-// 	pub finishReason: Option<String>,
-// }
-
-// #[derive(Debug, serde::Deserialize, Serialize)]
-// pub struct Content {
-// 	pub role: String,
-// 	pub parts: Vec<Part>,
-// }
-
-// #[derive(Debug, serde::Deserialize, Serialize)]
-// pub struct Part {
-// 	pub text: String,
-// }
-
 #[derive(Debug, Deserialize, Clone)]
 pub struct StreamChunk {
 	pub candidates: Vec<Candidate>,
-	// pub usage_metadata: Option<UsageMetadata>,
 	pub model_version: Option<String>,
 
 	#[serde(rename = "createTime")]
@@ -98,11 +52,3 @@ pub struct Content {
 pub struct Part {
 	pub text: String,
 }
-
-// #[derive(Debug, Deserialize)]
-// pub struct UsageMetadata {
-// 	pub prompt_token_count: Option<u32>,
-// 	pub candidates_token_count: Option<u32>,
-// 	pub total_token_count: Option<u32>,
-// 	pub traffic_type: Option<String>,
-// }
